@@ -1,10 +1,13 @@
 package ru.alishev.springcourse.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,6 +18,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 /**
  * @author Neil Alishev
@@ -22,13 +26,19 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("ru.alishev.springcourse")
 @EnableWebMvc
+@PropertySource("classpath:application.properties")
 public class SpringConfig implements WebMvcConfigurer {
 
+
+    private final Environment environment;
     private final ApplicationContext applicationContext;
 
+
+
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext) {
+    public SpringConfig(ApplicationContext applicationContext, Environment environment) {
         this.applicationContext = applicationContext;
+        this.environment = environment;
     }
 
     @Bean
@@ -55,14 +65,16 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
+
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/first_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("springcourse");
+        // Użyj wstrzykniętych zmiennych
+        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("db.driver")));
+        dataSource.setUrl(environment.getProperty("db.url"));
+        dataSource.setUsername(environment.getRequiredProperty("db.user"));
+        dataSource.setPassword(environment.getRequiredProperty("db.password"));
 
         return dataSource;
     }
