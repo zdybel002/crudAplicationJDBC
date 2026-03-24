@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.alishev.springcourse.model.Book;
 import ru.alishev.springcourse.model.Person;
 
 
@@ -42,19 +43,15 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person (name, age, email, address) VALUES (?, ?, ?,?)",
-                person.getName(),
-                person.getAge(),
-                person.getEmail(),
-                person.getAddress());
+        jdbcTemplate.update("INSERT INTO Person (full_name, birth_year) VALUES (?, ?)",
+                person.getFullName(),
+                person.getBirthYear());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE Person SET name=?, age=?, email=?, address=? Where id= ?",
-                updatedPerson.getName(),
-                updatedPerson.getAge(),
-                updatedPerson.getEmail(),
-                updatedPerson.getAddress(),
+        jdbcTemplate.update("UPDATE Person SET full_name=?, birth_year=? WHERE id=?",
+                updatedPerson.getFullName(),
+                updatedPerson.getBirthYear(),
                 id);
     }
 
@@ -63,4 +60,9 @@ public class PersonDAO {
                 "DELETE FROM Person where id=?", id);
     }
 
+    public List<Book> getBooksByPersonId(int id) {
+        // Szukamy w tabeli books wszystkich wierszy, gdzie person_id zgadza się z ID osoby
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?",
+                new BeanPropertyRowMapper<>(Book.class), id);
+    }
 }

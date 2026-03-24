@@ -28,11 +28,24 @@ public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationC
     @Override
     public void onStartup(ServletContext aServletContext) throws ServletException {
         super.onStartup(aServletContext);
+
+        registerCharacterEncodingFilter(aServletContext);
+
         registerHiddenFieldFilter(aServletContext);
+    }
+
+    private void registerCharacterEncodingFilter(ServletContext aContext) {
+        javax.servlet.FilterRegistration.Dynamic characterEncoding =
+                aContext.addFilter("characterEncoding", new org.springframework.web.filter.CharacterEncodingFilter());
+
+        characterEncoding.setInitParameter("encoding", "UTF-8");
+        characterEncoding.setInitParameter("forceEncoding", "true");
+        characterEncoding.addMappingForUrlPatterns(null, true, "/*");
     }
 
     private void registerHiddenFieldFilter(ServletContext aContext) {
         aContext.addFilter("hiddenHttpMethodFilter",
                 new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
     }
+
 }

@@ -29,11 +29,9 @@ import java.util.Objects;
 @PropertySource("classpath:application.properties")
 public class SpringConfig implements WebMvcConfigurer {
 
-
     private final Environment environment;
+
     private final ApplicationContext applicationContext;
-
-
 
     @Autowired
     public SpringConfig(ApplicationContext applicationContext, Environment environment) {
@@ -47,6 +45,8 @@ public class SpringConfig implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
+        // DODAJ TO:
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -62,6 +62,8 @@ public class SpringConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
+        // DODAJ TO:
+        resolver.setCharacterEncoding("UTF-8");
         registry.viewResolver(resolver);
     }
 
