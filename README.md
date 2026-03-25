@@ -12,6 +12,12 @@ Edycja danych istniejących książek.
 Usuwanie książek z systemu.
 System wypożyczeń: Możliwość przypisania wolnej książki do wybranego czytelnika lub jej zwolnienia (release).
 
+<img width="842" height="592" alt="image" src="https://github.com/user-attachments/assets/7c786952-7a38-48aa-8e11-ae7db79ca148" />
+<img width="832" height="601" alt="image" src="https://github.com/user-attachments/assets/5207490c-6d37-4b4a-a930-fb606ea15d5d" />
+
+
+
+
 Zarządzanie Czytelnikami:
 Lista wszystkich zarejestrowanych osób.
 Dodawanie nowych czytelników (Imię i nazwisko, Rok urodzenia).
