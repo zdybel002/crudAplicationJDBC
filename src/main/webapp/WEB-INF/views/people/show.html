@@ -1,37 +1,61 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Profil osoby</title>
+    <title>Profil czytelnika</title>
+    <!-- Korzystamy z tego samego pliku CSS -->
+    <link rel="stylesheet" th:href="@{/css/books/books.css}">
 </head>
 <body>
 
-<h2>Profil:
-    <span th:text="${person.fullName}">Imię i nazwisko</span></h2>
-    <p>Rok urodzenia:
-        <span th:text="${person.birthYear}">1990</span>
-    </p>
-<hr/>
+<div class="container">
+    <div class="card">
+        <!-- Nagłówek z imieniem -->
+        <h1 th:text="${person.fullName}">Imię i nazwisko</h1>
 
-<h3>Wypożyczone książki:</h3>
+        <div class="info-section">
+            <p><strong>Rok urodzenia:</strong> <span th:text="${person.birthYear}">1990</span></p>
+        </div>
 
-<div th:if="${books.isEmpty()}">
-    <p>Ta osoba nie wypożyczyła jeszcze żadnej książki.</p>
+        <hr/>
+
+        <!-- Sekcja KSIĄŻEK -->
+        <div class="status-section">
+            <h3>Wypożyczone książki:</h3>
+
+            <!-- Jeśli lista jest pusta -->
+            <div th:if="${books.isEmpty()}">
+                <p class="msg-muted">Ta osoba nie posiada obecnie żadnych książek.</p>
+            </div>
+
+            <!-- Jeśli osoba ma wypożyczone książki -->
+            <div th:unless="${books.isEmpty()}">
+                <ul class="book-list-simple">
+                    <li th:each="book : ${books}" class="book-item-simple">
+                        <span th:text="${book.title + ', ' + book.author + ', ' + book.year}">Tytuł</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <hr/>
+
+        <!-- Sekcja AKCJI -->
+        <div class="actions">
+            <!-- Niebieski/Stalowy przycisk Edytuj -->
+            <a th:href="@{/people/{id}/edit(id=${person.id})}" class="btn-edit">Edytuj dane</a>
+
+            <!-- Jasnoszary przycisk Usuń -->
+            <form th:method="DELETE" th:action="@{/people/{id}(id=${person.id})}">
+                <input type="submit" value="Usuń osobę" class="btn-danger"/>
+            </form>
+        </div>
+
+        <div class="footer-link">
+            <a href="/people" class="btn-back">← Powrót do listy osób</a>
+        </div>
+    </div>
 </div>
-
-<div th:unless="${books.isEmpty()}">
-    <ul>
-        <li th:each="book : ${books}">
-            <span th:text="${book.title + ', ' + book.author + ', ' + book.year}">Tytuł książki</span>
-        </li>
-    </ul>
-</div>
-
-<hr/>
-<a th:href="@{/people/{id}/edit(id=${person.id})}">Edytuj dane</a>
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.id})}">
-    <input type="submit" value="Usuń osobę"/>
-</form>
 
 </body>
 </html>

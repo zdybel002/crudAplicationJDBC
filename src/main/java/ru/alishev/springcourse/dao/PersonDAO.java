@@ -9,6 +9,7 @@ import ru.alishev.springcourse.model.Book;
 import ru.alishev.springcourse.model.Person;
 
 
+import javax.swing.text.html.Option;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,11 @@ public class PersonDAO {
     public void delete(int id){
         jdbcTemplate.update(
                 "DELETE FROM Person where id=?", id);
+    }
+
+    public Optional<Person> getPersonByFullName(String fullName){
+        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?", new Object[]{fullName},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public List<Book> getBooksByPersonId(int id) {

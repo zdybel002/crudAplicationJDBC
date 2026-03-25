@@ -8,13 +8,13 @@ public class Person {
     private int id;
 
     @NotEmpty(message = "Title should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 charters ")
+    @Size(min = 2, max = 100, message = "Name should be between 2 and 100 charters ")
     private String fullName;
 
-    @Min(value = 0, message = "Age shpuld be grater than 0")
-    private int birthYear;
+    @Min(value = 1900, message = "Age should be grater than 1900")
+    private Integer birthYear;
 
-    public Person(int id, String fullName, int birthYear) {
+    public Person(int id, String fullName, Integer birthYear) {
         this.id = id;
         this.fullName = fullName;
         this.birthYear = birthYear;
@@ -39,11 +39,11 @@ public class Person {
         this.fullName = fullName;
     }
 
-    public int getBirthYear() {
+    public Integer getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(int birthYear) {
+    public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
     }
 }

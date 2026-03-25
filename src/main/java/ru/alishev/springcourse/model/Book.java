@@ -1,5 +1,6 @@
 package ru.alishev.springcourse.model;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -8,15 +9,16 @@ public class Book {
 
     private int id;
 
-    @NotEmpty(message = "Title should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 charters ")
+    @NotEmpty(message = "Tytuł nie może być pusty")
+    @Size(min = 2, max = 100, message = "Tytuł powinien mieć od 2 do 200 znaków")
     private String title;
 
-    @NotEmpty(message = "Title should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 charters ")
+    @NotEmpty(message = "Autor nie może być pusty")
+    @Size(min = 2, max = 100, message = "Imię i nazwisko autora powinno mieć od 2 do 100 znaków")
     private String author;
 
-    @Min(value = 0, message = "Age should be grater than 0")
+    @Max(value = 2026, message = "Rok wydania nie może być z przyszłości")
+    @Min(value = 1500, message = "Rok wydania musi być większy niż 1500")
     private int year;
 
     private Integer personId;

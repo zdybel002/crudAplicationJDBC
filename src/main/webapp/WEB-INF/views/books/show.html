@@ -1,59 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Person</title>
+    <title>Szczegóły książki</title>
+    <link rel="stylesheet" th:href="@{/css/books/books.css}">
 </head>
-
 <body>
 
+<div class="container">
+    <div class="card">
+        <h1 th:text="${book.title}">Tytuł książki</h1>
 
-<h2><span th:text="${book.title}">Название</span></h2>
-<p>
-    <span th:text="${book.author}">Автор</span>,
-    <span th:text="${book.year}">Год</span>
-</p>
+        <div class="info-section">
+            <p><strong>Autor:</strong> <span th:text="${book.author}">Autor</span></p>
+            <p><strong>Rok wydania:</strong> <span th:text="${book.year}">Rok</span></p>
+        </div>
 
-<div th:if="${owner}">
-    <p>Книга сейчас у:
-        <span th:text="${owner.fullName}">Имя человека</span>
-    </p>
+        <hr/>
 
-    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.id})}">
-        <input type="submit" value="Освободить книгу"/>
-    </form>
+        <!-- Sekcja STATUSU KSIĄŻKI -->
+        <div class="status-section">
+            <div th:if="${owner}" class="status-assigned">
+                <p>Książka jest obecnie u: <br>
+                    <strong th:text="${owner.fullName}">Imię i nazwisko</strong></p>
+
+                <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.id})}">
+                    <input type="submit" value="Zwolnij książkę" class="btn-warning"/>
+                </form>
+            </div>
+
+            <div th:unless="${owner}" class="status-free">
+                <p class="msg-free">Ta książka jest wolna</p>
+
+                <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.id})}" class="assign-form">
+                    <label for="person">Wybierz czytelnika:</label>
+                    <select th:object="${person}" th:field="*{id}" id="person">
+                        <option th:each="p : ${people}"
+                                th:value="${p.id}"
+                                th:text="${p.fullName}">Imię i nazwisko</option>
+                    </select>
+                    <input type="submit" value="Przypisz książkę" class="btn-submit"/>
+                </form>
+            </div>
+        </div>
+
+        <hr/>
+
+        <!-- Sekcja ADMINISTRACYJNA -->
+        <div class="actions">
+            <a th:href="@{/books/{id}/edit(id=${book.getId()})}" class="btn-edit">Edytuj</a>
+
+            <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+                <input type="submit" value="Usuń książkę" class="btn-danger"/>
+            </form>
+        </div>
+
+        <div class="footer-link">
+            <a href="/books" class="btn-back">← Powrót do listy</a>
+        </div>
+    </div>
 </div>
-
-
-
-<div th:unless="${owner}">
-    <p>Эта книга свободна</p>
-
-    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.id})}">
-        <label for="person">Выберите читателя:</label>
-        <select th:object="${person}" th:field="*{id}" id="person">
-            <option th:each="person : ${people}"
-                    th:value="${person.id}"
-                    th:text="${person.fullName}">Имя</option>
-        </select>
-        <input type="submit" value="Назначить книгу"/>
-    </form>
-</div>
-
-
-<!--<p th:text="${book.getTitle()}"></p>-->
-<!--<p th:text="${book.getAuthor()}"></p>-->
-<!--<p th:text="${book.getYear()}"></p>-->
-
-
-
-<a th:href="@{/books/{id}/edit(id=${book.getId()})}">Edit</a>
-
-<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
-    <input type="submit" value="DELETE"/>
-</form>
 
 </body>
-
 </html>

@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
-    <meta charset="UTF-8"> <title>New person</title>
+    <meta charset="UTF-8">
+    <title>Nowy czytelnik</title>
+    <!-- Korzystamy z tego samego pliku co reszta aplikacji -->
+    <link rel="stylesheet" th:href="@{/css/books/books.css}">
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/people}" th:object="${person}">
+<div class="container">
+    <h1>Dodaj nowego czytelnika</h1>
 
-    <label for="name">Enter your name</label>
-    <input type="text" th:field="*{fullName}" id="name">
-    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name error</div>
+    <form th:method="POST" th:action="@{/people}" th:object="${person}">
 
-    <br/>
+        <div class="form-group">
+            <label for="name">Imię i nazwisko</label>
+            <input type="text" th:field="*{fullName}" id="name" placeholder="np. Jan Kowalski">
+            <div class="error-msg"
+                 th:if="${#fields.hasErrors('fullName')}"
+                 th:errors="*{fullName}">Błąd imienia</div>
+        </div>
 
-    <label for="age">Enter your birth year</label>
-    <input type="text" th:field="*{birthYear}" id="age">
-    <div style="color:red" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}">BirthYear error</div>
+        <div class="form-group">
+            <label for="age">Rok urodzenia</label>
+            <input type="number" th:field="*{birthYear}" id="age" placeholder="np. 1990">
+            <div class="error-msg"
+                 th:if="${#fields.hasErrors('birthYear')}"
+                 th:errors="*{birthYear}">Błąd roku urodzenia</div>
+        </div>
 
-    <br/>
-    <input type="submit" value="Create!">
+        <div class="actions">
+            <!-- Używamy btn-submit dla głównej akcji (szary/grafitowy) -->
+            <input type="submit" value="Dodaj osobę" class="btn-submit">
+            <a href="/people" class="btn-back">Anuluj i wróć</a>
+        </div>
 
-</form>
+    </form>
+</div>
 
 </body>
 </html>

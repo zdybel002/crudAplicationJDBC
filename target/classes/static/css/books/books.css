@@ -1,0 +1,246 @@
+/* ZMIENNE GLOBALNE - Tu zmieniasz kolory dla całej aplikacji */
+:root {
+    /* Główne kolory - odcienie szarości i grafitu */
+    --primary-color: #455a64;    /* Ciemny stalowy - dla przycisku Edytuj i linków */
+    --secondary-color: #209870;  /* Średni szary - dla przycisku Dodaj / Przypisz */
+    --hover-color: #37474f;      /* Bardzo ciemny szary na hover */
+    --error-color: #e74c3c;      /* Jasny szary - dla błędu i Usuń (stonowany, by nie "krzyczał") */
+
+    /* Tło i tekst */
+    --bg-color: #f4f4f4;         /* Jasne, zimne tło strony */
+    --container-bg: #ffffff;     /* Białe tło kart */
+    --text-color: #263238;       /* Prawie czarny grafit dla tekstu */
+
+    /* Dodatki */
+    --border-radius: 8px;
+    --shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+
+/* PODSTAWOWE STYLE */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--container-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 26px;
+    text-align: center;
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+/* STYLE LISTY (dla index.html) */
+.book-list {
+    margin-top: 20px;
+}
+
+.book-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.book-item:last-child {
+    border-bottom: none;
+}
+
+.book-link {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.book-link:hover {
+    color: var(--hover-color);
+    text-decoration: underline;
+}
+
+/* STYLE FORMULARZA (dla new.html / edit.html) */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    box-sizing: border-box; /* Ważne: padding nie rozszerza inputa */
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* BŁĘDY WALIDACJI */
+.error-msg {
+    color: var(--error-color);
+    font-size: 13px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* PRZYCISKI I AKCJE */
+.actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Przycisk typu Submit (Zielony) */
+.btn-submit, .btn-add {
+    display: inline-block;
+    flex: 1; /* Rozciąga przycisk w formularzu */
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    transition: filter 0.3s, transform 0.1s;
+}
+
+.btn-submit:hover, .btn-add:hover {
+    filter: brightness(90%);
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* Przycisk powrotu / linki pomocnicze */
+.btn-back {
+    text-decoration: none;
+    color: #7f8c8d;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.btn-back:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+/* Separator hr */
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* Specyficzne dla widoku SHOW */
+.info-section p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.status-section {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.msg-free {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+/* Styl dla listy rozwijanej */
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: var(--border-radius);
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Kolory przycisków */
+.btn-warning {
+    background-color: var(--secondary-color); /* Używamy średniego szarego z root */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: var(--error-color); /* Czerwony */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.btn-edit {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+}
+
+.footer-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.actions form {
+    display: inline; /* Aby przyciski Edytuj i Usuń były obok siebie */
+}
+
+/* Styl listy książek na profilu osoby */
+.book-list-simple {
+    list-style: none;
+    padding: 0;
+    text-align: left; /* Lepiej czyta się od lewej */
+}
+
+.book-item-simple {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.book-item-simple:last-child {
+    border-bottom: none;
+}
+

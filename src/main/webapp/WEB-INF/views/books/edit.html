@@ -1,27 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Update person</title>
+    <meta charset="UTF-8">
+    <title>Edycja książki</title>
+    <!-- Używamy tego samego pliku CSS -->
+    <link rel="stylesheet" th:href="@{/css/books/books.css}">
 </head>
-
 <body>
 
-<form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
+<div class="container">
+    <h1>Edytuj dane książki</h1>
 
-    <label for="name">Enter title of book</label>
-    <input type="text" th:field="*{title}" id="name">
+    <!-- Pamiętaj o th:method="PATCH" - Spring potrzebuje HiddenHttpMethodFilter, żeby to działało -->
+    <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}" class="form-container">
 
-    <label for="age">Enter author of the book</label>
-    <input type="text" th:field="*{author}" id="age">
+        <div class="form-group">
+            <label for="title">Tytuł książki</label>
+            <input type="text" th:field="*{title}" id="title">
+            <div class="error-msg" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Błąd tytułu</div>
+        </div>
 
-    <label for="year">Enter year of publish</label>
-    <input type="text" th:field="*{year}" id="year">
+        <div class="form-group">
+            <label for="author">Autor książki</label>
+            <input type="text" th:field="*{author}" id="author">
+            <div class="error-msg" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Błąd autora</div>
+        </div>
 
-    <input type="submit" value="Create!">
+        <div class="form-group">
+            <label for="year">Rok wydania</label>
+            <input type="number" th:field="*{year}" id="year">
+            <div class="error-msg" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Błąd roku</div>
+        </div>
 
-</form>
+        <div class="actions">
+            <input type="submit" value="Zaktualizuj" class="btn-submit">
+            <a th:href="@{/books/{id}(id=${book.getId()})}" class="btn-back">Anuluj</a>
+        </div>
+
+    </form>
+</div>
+
 </body>
-
 </html>

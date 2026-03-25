@@ -1,26 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Update person</title>
+    <meta charset="UTF-8">
+    <title>Edycja czytelnika</title>
+    <!-- Korzystamy z tego samego pliku co książki -->
+    <link rel="stylesheet" th:href="@{/css/books/books.css}">
 </head>
-
 <body>
 
-<form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
+<div class="container">
+    <h1>Edytuj dane czytelnika</h1>
 
-    <label for="name">Edit your name</label>
-    <input type="text" th:field="*{fullName}" id="name">
-    <br/>
+    <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
 
-    <label for="age">Edit your age</label>
-    <input type="text" th:field="*{birthYear}" id="age">
-    <br/>
+        <div class="form-group">
+            <label for="name">Imię i nazwisko</label>
+            <input type="text" th:field="*{fullName}" id="name">
+            <!-- Klasa error-msg zamiast stylu style="color:red" -->
+            <div class="error-msg"
+                 th:if="${#fields.hasErrors('fullName')}"
+                 th:errors="*{fullName}">Błąd imienia</div>
+        </div>
 
-    <input type="submit" value="Update!">
+        <div class="form-group">
+            <label for="age">Rok urodzenia</label>
+            <input type="number" th:field="*{birthYear}" id="age">
+            <div class="error-msg"
+                 th:if="${#fields.hasErrors('birthYear')}"
+                 th:errors="*{birthYear}">Błąd roku urodzenia</div>
+        </div>
 
-</form>
+        <div class="actions">
+            <!-- Zielony/Szary przycisk akcji -->
+            <input type="submit" value="Zaktualizuj" class="btn-submit">
+            <!-- Link powrotu -->
+            <a th:href="@{/people/{id}(id=${person.getId()})}" class="btn-back">Anuluj</a>
+        </div>
+
+    </form>
+</div>
+
 </body>
-
 </html>

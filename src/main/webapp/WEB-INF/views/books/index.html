@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>All people</title>
+    <title>Lista Książek</title>
+    <!-- Link do Twojego pliku CSS -->
+    <link rel="stylesheet" th:href="@{/css/books/books.css}">
 </head>
-
 <body>
 
-<div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.getId()})}"
-       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></a>
-    <hr/>
+<div class="container">
+    <h1>Katalog Książek</h1>
+
+    <div class="book-list">
+        <!-- Każda książka w osobnym kontenerze zamiast samych linków -->
+        <div th:each="book : ${books}" class="book-item">
+            <a class="book-link"
+               th:href="@{/books/{id}(id=${book.getId()})}"
+               th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">
+            </a>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="/books/new" class="btn-add">Add new book</a>
+    </div>
 </div>
 
-
-<br/>
-<hr/>
-
-<a href="/books/new">Add new book</a>
-
 </body>
-
 </html>
